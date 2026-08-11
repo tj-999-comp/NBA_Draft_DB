@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create the canonical SQLite database, optionally loading sample data."""
+"""正本SQLiteを作成し、指定時にはサンプルデータを投入する。"""
 
 from pathlib import Path
 import argparse
@@ -11,8 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("database", type=Path, help="SQLite database path")
-    parser.add_argument("--sample", action="store_true", help="load the sample dataset")
+    parser.add_argument("database", type=Path, help="SQLiteデータベースのパス")
+    parser.add_argument("--sample", action="store_true", help="サンプルデータを投入する")
     args = parser.parse_args()
 
     args.database.parent.mkdir(parents=True, exist_ok=True)

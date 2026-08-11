@@ -1,7 +1,7 @@
 PRAGMA foreign_keys = ON;
 
--- SQLite is the canonical source of truth for the MVP. Generated CSV/JSON
--- files must be derived from this database and must not be edited directly.
+-- MVPの正本はSQLiteとする。生成するCSV/JSONはこのDBから作成し、
+-- 生成物を直接編集してはならない。
 
 CREATE TABLE IF NOT EXISTS players (
     player_id TEXT PRIMARY KEY CHECK (length(trim(player_id)) > 0),

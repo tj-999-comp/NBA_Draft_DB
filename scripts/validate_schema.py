@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the minimum schema/data checks required by AGENTS.md."""
+"""AGENTS.mdで定めた最低限のスキーマ・データ検証を実行する。"""
 
 from pathlib import Path
 import argparse
