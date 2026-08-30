@@ -1,0 +1,83 @@
+name: Request work-record publication
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: Registered project identifier
+        required: true
+        type: string
+      source_commit_sha:
+        description: Exact source commit SHA to accept
+        required: true
+        type: string
+      target_basename:
+        description: Numbered work-record basename to inspect
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  validate-and-dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Validate source commit input
+        env:
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          PROJECT_ID: ${{ inputs.project_id }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$SOURCE_COMMIT_SHA" =~ ^[0-9a-fA-F]{40}$ ]]; then
+            echo "source_commit_sha must be a 40-character commit SHA" >&2
+            exit 1
+          fi
+          if [[ "$PROJECT_ID" != "NBA_Draft_DB" ]]; then
+            echo "project_id does not match the repository contract" >&2
+            exit 1
+          fi
+
+      - name: Checkout fixed source commit
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ inputs.source_commit_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify fixed commit is on main
+        env:
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_COMMIT_SHA"
+          git fetch --no-tags origin main
+          git merge-base --is-ancestor "$SOURCE_COMMIT_SHA" refs/remotes/origin/main
+
+      - name: Validate requested work record
+        env:
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_work_records.py \
+            --root work-records \
+            --target-basename "$TARGET_BASENAME" \
+            --require-publish
+
+      - name: Dispatch public repository acceptance workflow
+        env:
+          GH_TOKEN: ${{ secrets.SANDBOX_PAGES_DISPATCH_TOKEN }}
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+        run: |
+          set -euo pipefail
+          test -n "$GH_TOKEN"
+          gh api \
+            --method POST \
+            repos/tj-999-comp/sandbox-pages/actions/workflows/accept-source.yml/dispatches \
+            -f ref=main \
+            -f "inputs[project_id]=$PROJECT_ID" \
+            -f "inputs[source_commit_sha]=$SOURCE_COMMIT_SHA" \
+            -f "inputs[target_basename]=$TARGET_BASENAME" \
+            --silent
