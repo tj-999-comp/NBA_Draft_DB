@@ -8,3 +8,24 @@ NBAでドラフトされた選手と、NBAでプレーしたドラフト外選�
 
 - [MVPロードマップ](docs/mvp-roadmap.md): 最初の可視化・公開までの目的、構成、要件、作業手順
 - [将来ロードマップ](docs/future-roadmap.md): MVP後のD1、Workers、API、自動更新などの拡張方針
+
+## 作業記録の受け渡し
+
+公開作業記録の正本は、次の構成で管理します。
+
+```text
+work-records/
+├── md/work_record_###.md
+└── metadata/work_record_###.yml
+```
+
+このリポジトリは `tj-999-comp/sandbox-pages` の `NBA_Draft_DB` project向け生成元です。公開側のrendererがHTMLを生成する `a_rendered` 方式のため、生成元へ公開用HTML、CSS、designファイルは追加しません。既存の `docs/Issue/` は作業記録の公開対象ではありません。
+
+依存パッケージなしの検証は次で実行できます。
+
+```bash
+python3 scripts/validate_work_records.py
+python3 -m unittest discover -s tests -p 'test_*.py'
+```
+
+公開要求は `.github/workflows/request-publish.yml` の手動実行だけで行います。対象commit、basename、metadataの `publish: true` を検証した後、`SANDBOX_PAGES_DISPATCH_TOKEN` を使って公開リポジトリの受入workflowへ要求を送ります。
