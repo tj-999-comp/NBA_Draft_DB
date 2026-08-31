@@ -44,4 +44,13 @@ HTMLの生成、公開リポジトリのregistry・Pages成果物の変更、公
 
 - 公開側の正本契約に合わせ、旧 `SANDBOX_PAGES_DISPATCH_TOKEN` 方式ではなく、`PUBLISH_APP_ID` と `PUBLISH_APP_PRIVATE_KEY` によるGitHub App認証へ更新した。
 - PR #17をマージし、生成元側の標準構成・validator・公開要求workflowを `main` に反映した。
+- PR #18をマージし、公開要求workflowと公開・停止・再送手順を公開側契約へ整合させた。
+- GitHub Issue #11へ進捗を同期し、生成元側の子Issue #12〜#14をクローズした。
 - `publish: true`への変更、公開リポジトリのsource registry有効化、Pages公開、Slack通知は未実施であり、人間承認と公開側E2E待ちとした。
+
+## GitHub連携
+
+- GitHub Issue: [#11](https://github.com/tj-999-comp/NBA_Draft_DB/issues/11)
+- 対応PR: [#17](https://github.com/tj-999-comp/NBA_Draft_DB/pull/17)、[追補PR #18](https://github.com/tj-999-comp/NBA_Draft_DB/pull/18)
+- 公開側の受入追跡: [sandbox-pages #70](https://github.com/tj-999-comp/sandbox-pages/issues/70)
+- 生成元Secretは `PUBLISH_APP_PRIVATE_KEY` の存在を確認した。`PUBLISH_APP_ID` は未設定または未確認のため、公開要求は未実行である。
