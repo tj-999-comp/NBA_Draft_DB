@@ -6,4 +6,4 @@ tags:
   - validation
   - github-actions
   - a-rendered
-publish: false
+publish: true
