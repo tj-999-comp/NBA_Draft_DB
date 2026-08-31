@@ -48,6 +48,14 @@ HTMLの生成、公開リポジトリのregistry・Pages成果物の変更、公
 - GitHub Issue #11へ進捗を同期し、生成元側の子Issue #12〜#14をクローズした。
 - `publish: true`への変更、公開リポジトリのsource registry有効化、Pages公開、Slack通知は未実施であり、人間承認と公開側E2E待ちとした。
 
+## 2026-08-31 公開候補の承認
+
+- 対象basename: `work_record_001`
+- 公開範囲: `work-records/md/work_record_001.md` と対応metadataのみ。HTML、CSS、design、`docs/Issue/`は公開対象外。
+- 内容確認: 公開用の作業記録として内容を確認し、Secretの値、token、Webhook URL、個人情報、非公開データを含まないことを確認した。
+- 承認: ユーザーの明示許可を受け、対応metadataの `publish` を `true` に変更した。
+- 次工程: source-side CI成功後の固定commit SHAを確定し、`sandbox-pages`の受入workflowへ3入力で引き渡す。
+
 ## GitHub連携
 
 - GitHub Issue: [#11](https://github.com/tj-999-comp/NBA_Draft_DB/issues/11)
