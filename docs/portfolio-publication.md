@@ -43,5 +43,5 @@ Secretの値をログ、Issue、作業記録、artifactへ出力しない。公�
 ## 現在の状態
 
 - 生成元側の標準構成、validator、CI、固定SHA公開要求workflowはPR #17で`main`へ反映済み。
-- 公開側の`NBA_Draft_DB` source registry登録、Secret設定、受入dry-run、手動E2E、Pages公開、Slack通知は未完了。
+- 生成元Secret `PUBLISH_APP_ID` と `PUBLISH_APP_PRIVATE_KEY` の登録名は確認済み。公開側の`NBA_Draft_DB` source registry登録、受入dry-run、手動E2E、Pages公開、Slack通知は未完了。
 - `publish: true`化と実公開は、人間承認後に別途実施する。

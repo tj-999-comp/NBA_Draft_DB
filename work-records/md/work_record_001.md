@@ -31,4 +31,6 @@ validator、validatorテスト、通常の検証workflow、公開要求workflow�
 
 公開側の正本契約に合わせ、公開要求の認証は旧PAT方式ではなく、GitHub Appの短期Installation token方式を使用する。
 
+2026-08-31に生成元Secret `PUBLISH_APP_ID` と `PUBLISH_APP_PRIVATE_KEY` の登録を、Secretの値を表示せず名前だけ確認した。人間承認前のため、`publish: true`化と公開要求は行っていない。
+
 `publish: false` のため、この記録自体は公開対象外である。

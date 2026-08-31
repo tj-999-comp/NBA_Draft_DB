@@ -53,4 +53,4 @@ HTMLの生成、公開リポジトリのregistry・Pages成果物の変更、公
 - GitHub Issue: [#11](https://github.com/tj-999-comp/NBA_Draft_DB/issues/11)
 - 対応PR: [#17](https://github.com/tj-999-comp/NBA_Draft_DB/pull/17)、[追補PR #18](https://github.com/tj-999-comp/NBA_Draft_DB/pull/18)
 - 公開側の受入追跡: [sandbox-pages #70](https://github.com/tj-999-comp/sandbox-pages/issues/70)
-- 生成元Secretは `PUBLISH_APP_PRIVATE_KEY` の存在を確認した。`PUBLISH_APP_ID` は未設定または未確認のため、公開要求は未実行である。
+- 生成元Secret `PUBLISH_APP_ID` と `PUBLISH_APP_PRIVATE_KEY` の登録を、値を表示せずSecret名だけ確認した。公開要求は未実行である。
