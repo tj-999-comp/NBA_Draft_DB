@@ -27,6 +27,8 @@ validator、validatorテスト、通常の検証workflow、公開要求workflow�
 
 ## GitHub Issue状況
 
-本作業に対応するローカル記録は `docs/Issue/Issue011.md`。GitHub Issueは起票していない。
+本作業に対応するローカル記録は `docs/Issue/Issue011.md`。GitHub Issueは #11、対応PRは #17で、2026-08-31に `main` へマージされた。
+
+公開側の正本契約に合わせ、公開要求の認証は旧PAT方式ではなく、GitHub Appの短期Installation token方式を使用する。
 
 `publish: false` のため、この記録自体は公開対象外である。

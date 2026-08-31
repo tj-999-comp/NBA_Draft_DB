@@ -14,7 +14,7 @@
 - `push`、Pull Request、手動実行でvalidatorを実行する。
 - 公開要求は手動実行のみとし、`project_id`、`source_commit_sha`、`target_basename` の3入力に限定する。
 - 指定SHAのcheckout、対象ファイル、project_id、`publish: true` の検証に成功した場合だけ、公開側の `accept-source.yml` へdispatchする。
-- `SANDBOX_PAGES_DISPATCH_TOKEN` をdispatch専用Secretとして使用し、ログへtoken、Secret、作業記録本文を出力しない。
+- `PUBLISH_APP_ID` と `PUBLISH_APP_PRIVATE_KEY` を生成元リポジトリのActions Secretとして使用し、公開リポジトリの受入workflow専用の短期Installation tokenを発行する。ログへtoken、Secret、作業記録本文を出力しない。
 - 既存の `docs/Issue/` は公開作業記録へ自動移行しない。
 
 ## 対象範囲
@@ -39,3 +39,9 @@ HTMLの生成、公開リポジトリのregistry・Pages成果物の変更、公
 - 公開リポジトリ側で `NBA_Draft_DB` をregistryへ登録し、受入を有効化する時期。
 - 人間承認後にどの作業記録を `publish: true` にするか。
 - 公開リポジトリ側の手動E2EとPages公開確認。
+
+## 2026-08-31 追記
+
+- 公開側の正本契約に合わせ、旧 `SANDBOX_PAGES_DISPATCH_TOKEN` 方式ではなく、`PUBLISH_APP_ID` と `PUBLISH_APP_PRIVATE_KEY` によるGitHub App認証へ更新した。
+- PR #17をマージし、生成元側の標準構成・validator・公開要求workflowを `main` に反映した。
+- `publish: true`への変更、公開リポジトリのsource registry有効化、Pages公開、Slack通知は未実施であり、人間承認と公開側E2E待ちとした。

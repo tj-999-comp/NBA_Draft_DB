@@ -64,9 +64,31 @@ jobs:
             --target-basename "$TARGET_BASENAME" \
             --require-publish
 
+      - name: Validate GitHub App credentials
+        env:
+          PUBLISH_APP_ID: ${{ secrets.PUBLISH_APP_ID }}
+          PUBLISH_APP_PRIVATE_KEY: ${{ secrets.PUBLISH_APP_PRIVATE_KEY }}
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+        run: |
+          set -euo pipefail
+          test -n "$PUBLISH_APP_ID"
+          test -n "$PUBLISH_APP_PRIVATE_KEY"
+
+      - name: Create GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.PUBLISH_APP_ID }}
+          private-key: ${{ secrets.PUBLISH_APP_PRIVATE_KEY }}
+          owner: tj-999-comp
+          repositories: sandbox-pages
+          permission-actions: write
+
       - name: Dispatch public repository acceptance workflow
         env:
-          GH_TOKEN: ${{ secrets.SANDBOX_PAGES_DISPATCH_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PROJECT_ID: ${{ inputs.project_id }}
           SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
           TARGET_BASENAME: ${{ inputs.target_basename }}
