@@ -47,7 +47,7 @@ Secretの値をログ、Issue、作業記録、artifactへ出力しない。公�
 取得と親子関係確認の例:
 
 ```bash
-gh issue list --repo tj-999-comp/NBA_Draft_DB --state open --json number,title,state,stateReason,url --limit 100
+gh issue list --repo tj-999-comp/NBA_Draft_DB --state open --json number,title,state,stateReason,url --limit 1000
 gh api repos/tj-999-comp/NBA_Draft_DB/issues/<番号>/sub_issues
 ```
 
@@ -55,7 +55,7 @@ gh api repos/tj-999-comp/NBA_Draft_DB/issues/<番号>/sub_issues
 
 ## 作業記録HTMLの共通デザイン
 
-公開HTMLの正本は、公開リポジトリの [`work-records/design.md`](https://github.com/tj-999-comp/sandbox-pages/blob/main/work-records/design.md) とA側の `a_rendered` renderer/CSSである。生成元ではHTML・CSS・designを管理せず、全生成元で `record-page`、`shell`、`topbar`、`record-header`、`record-meta`、番号付き`record-section`、共通footerを使う同一の詳細ページ形式を利用する。新規・更新時は1280pxと320pxで横overflow、console/page error、failed requestがなく、生成元間の主要構造・スタイルが一致することを確認する。不一致が残る場合は公開導入を完了扱いにしない。
+公開HTMLの正本は、公開リポジトリの [`work-records/design.md`](https://github.com/tj-999-comp/sandbox-pages/blob/main/work-records/design.md) とA側の `a_rendered` renderer/CSSである。生成元ではHTML・CSS・designを管理せず、全生成元で `record-page`、`shell`、`topbar`、`record-header`、`record-meta`、番号付き`record-section`、共通footerを使う同一の詳細ページ形式を利用する。新規・更新時は1280px、900px、640px、320pxで横overflow、console/page error、failed requestがなく、生成元間の主要構造・スタイルが一致することを確認する。不一致が残る場合は公開導入を完了扱いにしない。
 
 ## 2026-08-31 E2E実績
 
