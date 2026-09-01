@@ -40,6 +40,23 @@ Secretの値をログ、Issue、作業記録、artifactへ出力しない。公�
 - Slack通知だけが失敗した場合は、公開側で同じ`publication_id`の通知jobを再実行する。Pages公開を重複実行しない。
 - 同じ公開要求を再送する場合は、固定SHA、対象basename、直前の受入結果、`publication_id`を照合してから行う。
 
+## 作業記録のGitHub Issue状況
+
+作業記録を作成する直前に、Pull Requestを除く `tj-999-comp/NBA_Draft_DB` の全Open IssueをGitHub APIから再取得する。取得日時（JST）、取得範囲、取得件数を記録し、優先順位表のIssue行数と取得件数を一致させる。各Issueの番号、タイトル、URL、state、state reason、作業記録との関係・着手条件を個別に記載する。親子関係はGitHubのsub-issues APIで確認できたものだけを記載し、Issue本文から推測しない。外部リポジトリのIssueは一覧へ混在させず、必要な場合だけ補足する。API取得に失敗した場合は状態を推測せず、未確認範囲と再取得手順を記録する。
+
+取得と親子関係確認の例:
+
+```bash
+gh issue list --repo tj-999-comp/NBA_Draft_DB --state open --json number,title,state,stateReason,url --limit 1000
+gh api repos/tj-999-comp/NBA_Draft_DB/issues/<番号>/sub_issues
+```
+
+取得結果は作業記録末尾の`## GitHub Issue状況`へ反映し、件数と一覧行数を確認してからcommitする。
+
+## 作業記録HTMLの共通デザイン
+
+公開HTMLの正本は、公開リポジトリの [`work-records/design.md`](https://github.com/tj-999-comp/sandbox-pages/blob/main/work-records/design.md) とA側の `a_rendered` renderer/CSSである。生成元ではHTML・CSS・designを管理せず、全生成元で `record-page`、`shell`、`topbar`、`record-header`、`record-meta`、番号付き`record-section`、共通footerを使う同一の詳細ページ形式を利用する。新規・更新時は1280px、900px、640px、320pxで横overflow、console/page error、failed requestがなく、生成元間の主要構造・スタイルが一致することを確認する。不一致が残る場合は公開導入を完了扱いにしない。
+
 ## 2026-08-31 E2E実績
 
 `work_record_001`について、次の実行結果を確認済みである。
