@@ -22,9 +22,8 @@
 
 ## 公開要求
 
-`.github/workflows/request-publish.yml` を手動実行し、次の3項目だけを入力する。
+`.github/workflows/request-publish.yml` はmainへの作業記録pushで自動起動し、変更された全recordをrecordごとに公開要求する。再公開・復旧時は手動実行し、次の2項目だけを入力する。
 
-- `project_id`: `NBA_Draft_DB`
 - `source_commit_sha`: `main`上の40桁の固定commit SHA
 - `target_basename`: `work_record_###`
 
@@ -68,10 +67,10 @@ gh api repos/tj-999-comp/NBA_Draft_DB/issues/<番号>/sub_issues
 - 公開URL: <https://tj-999-comp.github.io/sandbox-pages/projects/NBA_Draft_DB/work_record_001.html>。
 - 同一要求の再送: source-side [run 33369593130](https://github.com/tj-999-comp/NBA_Draft_DB/actions/runs/33369593130) と公開側 [run 33369607800](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33369607800) が成功。公開側applyはno-op、Pages deployとSlack通知はskipとなり、重複公開・重複通知は発生しなかった。
 
-恒久自動公開triggerは設定しない。通常の公開は、内容確認・明示承認・source-side validator・固定SHA・3入力dispatch・公開側受入結果の確認を経て行う。
+通常の公開は、内容確認・明示承認・source-side validator・固定SHA・公開側受入結果の確認を経て行う。公開側のPages反映成功後にSlack通知される。自動workflowは`publish`やsource registryを変更しない。
 
 ## 現在の状態
 
-- 生成元側の標準構成、validator、CI、固定SHA公開要求workflowはPR #17で`main`へ反映済み。
+- 生成元側の標準構成、validator、CI、main push自動公開・固定SHA手動復旧workflowは`main`へ反映する。
 - 生成元Secret `PUBLISH_APP_ID` と `PUBLISH_APP_PRIVATE_KEY` の登録名は確認済み。公開側の`NBA_Draft_DB` source registry登録、受入dry-run、手動E2E、Pages公開、Slack通知は完了済み。
 - `work_record_001`の承認付き公開、Pages表示、Slack通知、同一要求再送のno-opは完了済み。今後はこの手順で個別の作業記録を公開し、停止時は公開側で`enabled:false`へ戻して実行中workflowとprovenanceを確認する。

@@ -29,4 +29,4 @@ python3 scripts/validate_work_records.py
 python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-公開要求は `.github/workflows/request-publish.yml` の手動実行だけで行います。対象commit、basename、metadataの `publish: true` を検証した後、`PUBLISH_APP_ID` と `PUBLISH_APP_PRIVATE_KEY` から発行した短期Installation tokenを使って公開リポジトリの受入workflowへ要求を送ります。公開要求には `project_id`、固定 `source_commit_sha`、`target_basename` の3項目だけを渡します。
+`.github/workflows/request-publish.yml` は、mainへの作業記録pushから変更された全recordを検出して自動公開要求します。複数recordを含むpushはrecordごとに独立して処理します。再公開や復旧時の手動実行では、`source_commit_sha` と `target_basename` を指定し、固定SHA、対象commit、metadataの `publish: true` を検証した後、`PUBLISH_APP_ID` と `PUBLISH_APP_PRIVATE_KEY` から発行した短期Installation tokenを使って公開リポジトリの受入workflowへ要求を送ります。公開側のPages反映成功後にSlack通知が行われます。
